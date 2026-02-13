@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, Briefcase } from 'lucide-react';
+import { Search, MapPin, Clock, Briefcase, Trash2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { type Job } from '../types';
-import { fetchJobs, createJob } from '../services/api';
+import { fetchJobs, createJob, deleteJob } from '../services/api';
+
 import { useAuth } from '../context/AuthContext';
 
 import { useNavigate } from 'react-router-dom';
@@ -56,6 +57,21 @@ export const Careers: React.FC = () => {
         } catch (error) {
             console.error("Failed to post job:", error);
             alert("Failed to post job.");
+        }
+    };
+
+    const handleDeleteJob = async (id: number) => {
+        if (window.confirm('Are you sure you want to delete this job vacancy?')) {
+            try {
+                if (id) {
+                    await deleteJob(id);
+                    setJobs(jobs.filter(job => job.id !== id));
+                    alert("Job deleted successfully");
+                }
+            } catch (error) {
+                console.error("Failed to delete job:", error);
+                alert("Failed to delete job");
+            }
         }
     };
 
@@ -177,7 +193,23 @@ export const Careers: React.FC = () => {
                                             <span className="flex items-center gap-1 text-green-600 font-medium">{job.salary}</span>
                                         </div>
                                     </div>
-                                    <Button variant="secondary" onClick={() => navigate(`/careers/${job.id}`)}>Apply Now</Button>
+                                    <div className="flex flex-col gap-2 md:items-end">
+                                        {user?.role === 'admin' && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDeleteJob(job.id!)
+                                                }}
+                                                className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
+                                            >
+                                                <Trash2 size={16} />
+                                                Delete
+                                            </button>
+                                        )}
+                                        {user?.role === 'user' && (
+                                            <Button variant="secondary" onClick={() => navigate(`/careers/${job.id}`)}>Apply Now</Button>
+                                        )}
+                                    </div>
                                 </div>
                                 <p className="text-gray-600 mb-4 line-clamp-3">{job.description.substring(0, 150)}...</p>
                                 <div className="flex flex-wrap gap-2">
