@@ -109,7 +109,7 @@ export const AdminDashboard: React.FC = () => {
                                             </td>
                                             <td className="py-3 px-4">
                                                 <a
-                                                    href={`${import.meta.env.VITE_API_URL}/uploads/${app.cv_path}`}
+                                                    href={app.cv_path.trim().toLowerCase().startsWith('http') ? app.cv_path : `${import.meta.env.VITE_API_URL}/uploads/${app.cv_path}`}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-blue-600 hover:underline text-sm font-medium"
