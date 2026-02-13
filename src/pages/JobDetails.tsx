@@ -1,0 +1,76 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { MapPin, Clock, Briefcase, DollarSign, ArrowLeft } from 'lucide-react';
+import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { Card } from '../components/ui/Card';
+import { fetchJobById } from '../services/api';
+import { ApplicationForm } from '../components/ApplicationForm';
+import { type Job } from '../types';
+
+export const JobDetails: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const [job, setJob] = useState<Job | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadJob = async () => {
+            if (!id) return;
+            try {
+                const data = await fetchJobById(Number(id));
+                setJob(data);
+            } catch (error) {
+                console.error("Failed to load job", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadJob();
+    }, [id]);
+
+    if (loading) return <div className="text-center py-20">Loading job details...</div>;
+    if (!job) return <div className="text-center py-20">Job not found.</div>;
+
+    return (
+        <div className="bg-gray-50 min-h-screen py-12">
+            <div className="container mx-auto px-4 max-w-4xl">
+                <Button variant="outline" size="sm" onClick={() => navigate('/careers')} className="mb-6">
+                    <ArrowLeft size={16} /> Back to Careers
+                </Button>
+
+                <Card className="p-8 mb-8">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900 mb-2">{job.title}</h1>
+                            <div className="flex flex-wrap gap-4 text-gray-600">
+                                <span className="flex items-center gap-1"><MapPin size={18} /> {job.location}</span>
+                                <span className="flex items-center gap-1"><Briefcase size={18} /> {job.type}</span>
+                                <span className="flex items-center gap-1"><DollarSign size={18} /> {job.salary}</span>
+                                <span className="flex items-center gap-1"><Clock size={18} /> Posted: {job.postedDate}</span>
+                            </div>
+                        </div>
+                        <Badge>{job.type}</Badge>
+                    </div>
+
+                    <div className="prose max-w-none text-gray-700 mb-8">
+                        <h3 className="text-xl font-semibold mb-2">Job Description</h3>
+                        <p className="whitespace-pre-line">{job.description}</p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mb-8">
+                        {job.keywords.map((keyword, index) => (
+                            <span key={index} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                                {keyword}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="border-t border-gray-200 pt-8 mt-8">
+                        <ApplicationForm jobId={job.id!} />
+                    </div>
+                </Card>
+            </div>
+        </div>
+    );
+};
