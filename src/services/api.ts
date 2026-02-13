@@ -43,6 +43,11 @@ export const loginUser = async (email: string, password: string) => {
     return response.data;
 };
 
+export const verifyUser = async (email: string, otp: string) => {
+    const response = await API.post('/auth/verify', { email, otp });
+    return response.data;
+};
+
 export const submitApplication = async (formData: FormData) => {
     const response = await API.post('/applications', formData, {
         headers: {
