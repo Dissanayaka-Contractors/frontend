@@ -94,9 +94,6 @@ export const Home: React.FC = () => {
                     <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {testimonials.map((t) => (
                             <Card key={t.id} className="p-8 bg-blue-50 border-none">
-                                <div className="flex gap-1 mb-4">
-                                    {[1, 2, 3, 4, 5].map(s => <span key={s} className="text-yellow-400">★</span>)}
-                                </div>
                                 <p className="text-lg italic text-gray-700 mb-6">"{t.text}"</p>
                                 <div>
                                     <div className="font-bold text-gray-900">{t.name}</div>
