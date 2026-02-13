@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import Swal from 'sweetalert2';
 import { sendContactMessage } from '../services/api';
 
 export const Contact: React.FC = () => {
@@ -21,11 +22,11 @@ export const Contact: React.FC = () => {
         e.preventDefault();
         try {
             await sendContactMessage(formData);
-            alert("Message sent successfully!");
+            Swal.fire('Message Sent!', 'Your message has been sent successfully.', 'success');
             setFormData({ firstName: '', lastName: '', email: '', subject: 'Request Manpower', message: '' });
         } catch (error) {
             console.error("Failed to send message:", error);
-            alert("Failed to send message. Please try again.");
+            Swal.fire('Error', 'Failed to send message. Please try again.', 'error');
         }
     };
 

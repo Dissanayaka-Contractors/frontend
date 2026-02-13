@@ -3,6 +3,7 @@ import { Button } from './ui/Button';
 import { submitApplication } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 interface ApplicationFormProps {
     jobId: number;
@@ -45,7 +46,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({ jobId, onSucce
             formData.append('cv', cvFile);
 
             await submitApplication(formData);
-            alert('Application submitted successfully!');
+            Swal.fire('Submitted!', 'Application submitted successfully!', 'success');
             if (onSuccess) onSuccess();
         } catch (err: any) {
             console.error(err);

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { registerUser, verifyUser } from '../services/api';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import Swal from 'sweetalert2';
 
 export const Register: React.FC = () => {
     const [step, setStep] = useState<'register' | 'verify'>('register');
@@ -28,7 +29,7 @@ export const Register: React.FC = () => {
         try {
             await registerUser(username, email, password);
             setStep('verify');
-            alert('A verification code has been sent to your email.');
+            Swal.fire('Verification Code Sent', 'A verification code has been sent to your email.', 'info');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Registration failed');
         }
@@ -40,26 +41,9 @@ export const Register: React.FC = () => {
 
         try {
             const data = await verifyUser(email, otp);
-            login(data.token, data); // Make sure verifyUser returns the full user object or login handles what's returned
-            // Actually verifyUser returns { message, token }, we might need to decode token or just redirect to login if auto-login is tricky without full user data.
-            // But standard practice: standard login expects token and user.
-            // Let's rely on the token. The useAuth's login typically takes (token, user).
-            // If the backend doesn't return full user on verify, we might issue a separate getMe() call or just redirect to login.
-            // Let's assume for now we redirect to login or home. 
-            // Checking authController verifyEmail returns: { message, token }. It does NOT return the user object structure needed for `login(token, user)`.
-            // So we should probably just navigate to login or fetch user details.
-            // For simplicity/speed: Alert and navigate to login, OR decode/fetch.
-            // Let's keep it simple: Alert success and navigate to login, OR fetch "me".
+            login(data.token, data);
 
-            // Re-reading api.ts/authContext: login takes (token, userData).
-            // Backend verifyEmail doesn't return userData. 
-            // I will modify frontend to just alert and navigate to login, or simpler: auto-login requires user data.
-            // Let's just navigate to login for now to avoid complexity, or fetch user. 
-            // Actually, I can update the backend verifyEmail to return user data too. That's better UX.
-            // But since I can't touch backend in this tool call...
-            // I'll restart the process or just use what I have.
-            // Let's just navigate to login page with a success message.
-            alert('Email verified successfully! You can now log in.');
+            await Swal.fire('Verified!', 'Email verified successfully! You can now log in.', 'success');
             navigate('/login');
 
         } catch (err: any) {

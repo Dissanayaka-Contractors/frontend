@@ -9,6 +9,7 @@ import { fetchJobs, createJob, deleteJob } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export const Careers: React.FC = () => {
     const { user } = useAuth();
@@ -52,25 +53,35 @@ export const Careers: React.FC = () => {
             };
             await createJob(jobData);
             setNewJob({ title: '', location: '', type: 'Full-time', salary: '', description: '', keywords: '' });
-            alert("Job Posted Successfully!");
+            Swal.fire('Job Posted!', 'Job Posted Successfully!', 'success');
             loadJobs(); // Refresh list
         } catch (error) {
             console.error("Failed to post job:", error);
-            alert("Failed to post job.");
+            Swal.fire('Error', 'Failed to post job.', 'error');
         }
     };
 
     const handleDeleteJob = async (id: number) => {
-        if (window.confirm('Are you sure you want to delete this job vacancy?')) {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if (result.isConfirmed) {
             try {
                 if (id) {
                     await deleteJob(id);
                     setJobs(jobs.filter(job => job.id !== id));
-                    alert("Job deleted successfully");
+                    Swal.fire('Deleted!', 'Job deleted successfully.', 'success');
                 }
             } catch (error) {
                 console.error("Failed to delete job:", error);
-                alert("Failed to delete job");
+                Swal.fire('Error', 'Failed to delete job', 'error');
             }
         }
     };

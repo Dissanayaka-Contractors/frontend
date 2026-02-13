@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
                     {user ? (
                         <div className="flex items-center gap-4">
                             <span className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                                <UserIcon size={16} /> {user.username} {user.role === 'admin' && <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Admin</span>}
+                                <UserIcon size={16} /> {user.username}
                             </span>
                             <Button variant="outline" size="sm" onClick={logout} className="flex items-center gap-2">
                                 <LogOut size={16} /> Logout

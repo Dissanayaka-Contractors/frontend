@@ -9,8 +9,7 @@ export const Footer: React.FC = () => {
                 <div className="grid md:grid-cols-4 gap-8 mb-8">
                     <div className="col-span-1 md:col-span-2">
                         <div className="flex items-center gap-2 mb-4 text-white">
-                            <HardHat size={24} />
-                            <span className="text-xl font-bold">Dissanayaka Contractors</span>
+                            <img src="/logo-sm-removebg.png" alt="Dissanayaka Contractors" className="h-8 md:h-10 w-auto" />
                         </div>
                         <p className="text-gray-400 max-w-sm mb-6">
                             Your trusted partner for skilled and unskilled manpower supply across Sri Lanka. Building the future, together.

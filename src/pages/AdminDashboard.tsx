@@ -4,6 +4,7 @@ import { FileText, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { useAuth } from '../context/AuthContext';
 import { fetchApplications, deleteApplication, updateApplicationStatus } from '../services/api';
+import Swal from 'sweetalert2';
 
 interface Application {
     id: number;
@@ -50,27 +51,49 @@ export const AdminDashboard: React.FC = () => {
     };
 
     const handleDeleteApplication = async (id: number) => {
-        if (window.confirm('Are you sure you want to delete this application?')) {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        });
+
+        if (result.isConfirmed) {
             try {
                 await deleteApplication(id);
                 setApplications(applications.filter(app => app.id !== id));
+                Swal.fire('Deleted!', 'Application has been deleted.', 'success');
             } catch (error) {
                 console.error("Failed to delete application:", error);
-                alert("Failed to delete application");
+                Swal.fire('Error', 'Failed to delete application', 'error');
             }
         }
     };
 
     const handleStatusUpdate = async (id: number, status: 'accepted' | 'rejected', app: Application) => {
         const action = status === 'accepted' ? 'approve' : 'reject';
-        if (window.confirm(`Are you sure you want to ${action} this application? An email will be sent to the applicant.`)) {
+
+        const result = await Swal.fire({
+            title: `Are you sure you want to ${action}?`,
+            text: `An email will be sent to the applicant.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: status === 'accepted' ? '#10b981' : '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: `Yes, ${action} it!`
+        });
+
+        if (result.isConfirmed) {
             try {
                 await updateApplicationStatus(id, status, app.email, app.full_name, app.job_title);
                 setApplications(applications.map(a => a.id === id ? { ...a, status } : a));
-                alert(`Application ${status} successfully.`);
+                Swal.fire('Updated!', `Application ${status} successfully.`, 'success');
             } catch (error) {
                 console.error(`Failed to ${action} application:`, error);
-                alert(`Failed to ${action} application`);
+                Swal.fire('Error', `Failed to ${action} application`, 'error');
             }
         }
     };
