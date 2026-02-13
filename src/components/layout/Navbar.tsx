@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink as RouterNavLink, Link } from 'react-router-dom';
-import { Menu, X, HardHat, LogOut, User as UserIcon } from 'lucide-react';
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
