@@ -109,7 +109,7 @@ export const AdminDashboard: React.FC = () => {
                                             </td>
                                             <td className="py-3 px-4">
                                                 <a
-                                                    href={`${import.meta.env.VITE_API_URL}/applications/${app.id}/cv`}
+                                                    href={`${import.meta.env.VITE_API_URL}/api/applications/${app.id}/cv`}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-blue-600 hover:underline text-sm font-medium"
