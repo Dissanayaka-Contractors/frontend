@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FileText, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { useAuth } from '../context/AuthContext';
-import { fetchApplications, deleteApplication } from '../services/api';
+import { fetchApplications, deleteApplication, updateApplicationStatus } from '../services/api';
 
 interface Application {
     id: number;
@@ -57,6 +57,20 @@ export const AdminDashboard: React.FC = () => {
             } catch (error) {
                 console.error("Failed to delete application:", error);
                 alert("Failed to delete application");
+            }
+        }
+    };
+
+    const handleStatusUpdate = async (id: number, status: 'accepted' | 'rejected', app: Application) => {
+        const action = status === 'accepted' ? 'approve' : 'reject';
+        if (window.confirm(`Are you sure you want to ${action} this application? An email will be sent to the applicant.`)) {
+            try {
+                await updateApplicationStatus(id, status, app.email, app.full_name, app.job_title);
+                setApplications(applications.map(a => a.id === id ? { ...a, status } : a));
+                alert(`Application ${status} successfully.`);
+            } catch (error) {
+                console.error(`Failed to ${action} application:`, error);
+                alert(`Failed to ${action} application`);
             }
         }
     };
@@ -137,10 +151,18 @@ export const AdminDashboard: React.FC = () => {
                                             </td>
                                             <td className="py-3 px-4">
                                                 <div className="flex gap-2">
-                                                    <button className="text-gray-400 hover:text-green-600 transition-colors" title="Approve">
+                                                    <button
+                                                        onClick={() => handleStatusUpdate(app.id, 'accepted', app)}
+                                                        className="text-gray-400 hover:text-green-600 transition-colors"
+                                                        title="Approve"
+                                                    >
                                                         <CheckCircle size={18} />
                                                     </button>
-                                                    <button className="text-gray-400 hover:text-red-600 transition-colors" title="Reject">
+                                                    <button
+                                                        onClick={() => handleStatusUpdate(app.id, 'rejected', app)}
+                                                        className="text-gray-400 hover:text-red-600 transition-colors"
+                                                        title="Reject"
+                                                    >
                                                         <XCircle size={18} />
                                                     </button>
                                                     <button

@@ -81,3 +81,8 @@ export const deleteApplication = async (id: number) => {
     const response = await API.delete(`/applications/${id}`);
     return response.data;
 };
+
+export const updateApplicationStatus = async (id: number, status: string, email: string, fullName: string, jobTitle: string) => {
+    const response = await API.put(`/applications/${id}/status`, { status, email, fullName, jobTitle });
+    return response.data;
+};
