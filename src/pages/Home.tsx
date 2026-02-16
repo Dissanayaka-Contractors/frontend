@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Hammer, Briefcase, Users } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
-import { fetchTestimonials } from '../services/api';
-import { type Testimonial } from '../types';
+// import { fetchTestimonials } from '../services/api';
+// import { type Testimonial } from '../types';
 
 export const Home: React.FC = () => {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    // const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-    useEffect(() => {
-        const loadTestimonials = async () => {
-            try {
-                const data = await fetchTestimonials();
-                setTestimonials(data);
-            } catch (error) {
-                console.error("Failed to fetch testimonials:", error);
-            }
-        };
-        loadTestimonials();
-    }, []);
+    // useEffect(() => {
+    //     const loadTestimonials = async () => {
+    //         try {
+    //             const data = await fetchTestimonials();
+    //             setTestimonials(data);
+    //         } catch (error) {
+    //             console.error("Failed to fetch testimonials:", error);
+    //         }
+    //     };
+    //     loadTestimonials();
+    // }, []);
+
     return (
         <div className="animate-in fade-in duration-500">
             {/* Hero Section */}
@@ -47,12 +49,11 @@ export const Home: React.FC = () => {
 
             {/* Stats */}
             <section className="py-12 bg-white border-b border-gray-100">
-                <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div className="container mx-auto px-4 grid grid-cols-3 md:grid-cols-3 gap-8 text-center">
                     {[
-                        { label: "Projects Completed", value: "500+" },
                         { label: "Workers Deployed", value: "1,200+" },
-                        { label: "Happy Clients", value: "150+" },
-                        { label: "Years Experience", value: "13" }
+                        { label: "Happy Clients", value: "50+" },
+                        { label: "Years Experience", value: "14" }
                     ].map((stat, idx) => (
                         <div key={idx}>
                             <div className="text-3xl font-bold text-blue-600 mb-1">{stat.value}</div>
@@ -88,7 +89,7 @@ export const Home: React.FC = () => {
             </section>
 
             {/* Testimonials */}
-            <section className="py-20 bg-white">
+            {/* <section className="py-20 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-12">Client Testimonials</h2>
                     <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -103,7 +104,7 @@ export const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 };

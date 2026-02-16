@@ -13,7 +13,7 @@ export const About: React.FC = () => {
                     <div>
                         <h2 className="text-3xl font-bold mb-6 text-gray-900">Our Story</h2>
                         <p className="text-gray-600 mb-4 leading-relaxed">
-                            Founded in 2010 by Mr. Dissanayaka, our company started as a small sub-contracting unit in Gampaha. Recognizing the gap in reliable, organized labor supply, we pivoted to become a full-service manpower agency.
+                            Founded in 2014 by Mr. Dissanayaka, our company started as a small sub-contracting unit in Awissawella. Recognizing the gap in reliable, organized labor supply, we pivoted to become a full-service manpower agency.
                         </p>
                         <p className="text-gray-600 mb-6 leading-relaxed">
                             Today, we serve over 50 major construction and industrial firms across the island, ensuring that projects are never delayed due to labor shortages.
