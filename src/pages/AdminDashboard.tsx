@@ -15,6 +15,7 @@ interface Application {
     phone: string;
     address: string;
     gender: string;
+    age: number;
     cv_path: string;
     status: 'pending' | 'reviewed' | 'rejected' | 'accepted';
     applied_at: string;
@@ -127,6 +128,7 @@ export const AdminDashboard: React.FC = () => {
                             <thead>
                                 <tr className="border-b border-gray-200 text-gray-600 text-sm">
                                     <th className="py-3 px-4">Applicant</th>
+                                    <th className="py-3 px-4">Age/Gender</th>
                                     <th className="py-3 px-4">Job Title</th>
                                     <th className="py-3 px-4">Contact</th>
                                     <th className="py-3 px-4">Date</th>
@@ -147,6 +149,9 @@ export const AdminDashboard: React.FC = () => {
                                         <tr key={app.id} className="hover:bg-gray-50 transition-colors">
                                             <td className="py-3 px-4">
                                                 <div className="font-medium text-gray-900">{app.full_name}</div>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <div className="text-sm text-gray-900">{app.age} years</div>
                                                 <div className="text-xs text-gray-500">{app.gender}</div>
                                             </td>
                                             <td className="py-3 px-4 text-gray-700">{app.job_title}</td>

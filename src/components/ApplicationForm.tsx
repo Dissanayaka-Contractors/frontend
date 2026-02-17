@@ -22,6 +22,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({ jobId, onSucce
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [gender, setGender] = useState('Male');
+    const [age, setAge] = useState('');
     const [cvFile, setCvFile] = useState<File | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,6 +44,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({ jobId, onSucce
             formData.append('phone', phone);
             formData.append('address', address);
             formData.append('gender', gender);
+            formData.append('age', age);
             formData.append('cv', cvFile);
 
             await submitApplication(formData);
@@ -86,6 +88,11 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({ jobId, onSucce
                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input type="tel" required className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
                         value={phone} onChange={e => setPhone(e.target.value)} placeholder="077-1234567" />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                    <input type="number" required min="18" max="100" className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                        value={age} onChange={e => setAge(e.target.value)} placeholder="e.g. 25" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
