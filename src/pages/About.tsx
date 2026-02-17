@@ -1,9 +1,15 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
+import { SEOHead } from '../components/SEOHead';
 
 export const About: React.FC = () => {
     return (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <SEOHead
+                title="About Us - Dissanayaka Contractors"
+                description="Learn about Dissanayaka Contractors, founded in 2014. We empower Sri Lankan industries with quality manpower and reliable staffing solutions."
+                keywords="about dissanayaka contractors, manpower agency history, construction labor supply sri lanka"
+            />
             <div className="bg-blue-600 py-16 text-center text-white">
                 <h1 className="text-4xl font-bold mb-4">About Dissanayaka Contractors</h1>
                 <p className="text-xl text-blue-100">Empowering Sri Lankan industries with quality manpower.</p>

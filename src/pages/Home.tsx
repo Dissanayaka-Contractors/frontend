@@ -5,6 +5,7 @@ import { Hammer, Briefcase, Users } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
+import { SEOHead } from '../components/SEOHead';
 // import { fetchTestimonials } from '../services/api';
 // import { type Testimonial } from '../types';
 
@@ -26,8 +27,19 @@ export const Home: React.FC = () => {
     return (
         <div className="animate-in fade-in duration-500">
             {/* Hero Section */}
+            <SEOHead
+                title="Manpower Agency Sri Lanka - Dissanayaka Contractors"
+                description="Reliable manpower supply agency in Sri Lanka. providing skilled and unskilled labor for construction, industrial, and logistics sectors."
+                keywords="manpower agency, labor supply, construction workers, sri lanka, industrial staffing"
+            />
             <section className="relative bg-blue-900 text-white py-24 lg:py-32 overflow-hidden">
-                <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center"></div>
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Construction workers on site in Sri Lanka"
+                        className="w-full h-full object-cover opacity-10"
+                    />
+                </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
                     <Badge color="blue" className="bg-blue-800 text-blue-100 mb-4 inline-block">Trusted Since 2010</Badge>
                     <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">

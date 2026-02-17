@@ -8,6 +8,7 @@ import { Card } from '../components/ui/Card';
 import { fetchJobById } from '../services/api';
 import { ApplicationForm } from '../components/ApplicationForm';
 import { type Job } from '../types';
+import { SEOHead } from '../components/SEOHead';
 
 export const JobDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -51,6 +52,11 @@ export const JobDetails: React.FC = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen py-12">
+            <SEOHead
+                title={`${job.title} - Dissanayaka Contractors`}
+                description={`Apply for ${job.title} at Dissanayaka Contractors. Location: ${job.location}. Type: ${job.type}. ${job.description.substring(0, 100)}...`}
+                keywords={`job vacancy, ${job.title}, ${job.location}, ${job.type}, sri lanka jobs`}
+            />
             <div className="container mx-auto px-4 max-w-4xl">
                 <div className="flex justify-between items-center mb-6">
                     <Button variant="outline" size="sm" onClick={() => navigate('/careers')}>

@@ -4,6 +4,7 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import Swal from 'sweetalert2';
 import { sendContactMessage } from '../services/api';
+import { SEOHead } from '../components/SEOHead';
 
 export const Contact: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -32,6 +33,11 @@ export const Contact: React.FC = () => {
 
     return (
         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+            <SEOHead
+                title="Contact Us - Dissanayaka Contractors"
+                description="Contact Dissanayaka Contractors for manpower supply, job applications, or general inquiries. Located in Peliyagoda, Sri Lanka."
+                keywords="contact manpower agency, dissanayaka contractors address, labor supply inquiry"
+            />
             <div className="bg-gray-900 text-white py-16 text-center">
                 <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
                 <p className="text-xl text-gray-300">Let's discuss your manpower requirements.</p>

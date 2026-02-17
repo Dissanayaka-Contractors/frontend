@@ -5,6 +5,7 @@ import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { type Job } from '../types';
 import { fetchJobs, createJob, deleteJob } from '../services/api';
+import { SEOHead } from '../components/SEOHead';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -115,6 +116,11 @@ export const Careers: React.FC = () => {
 
     return (
         <div className="animate-in fade-in duration-500 bg-gray-50 min-h-screen pb-20">
+            <SEOHead
+                title="Careers - Jobs at Dissanayaka Contractors"
+                description="Find job opportunities in construction and industrial sectors in Sri Lanka. Apply now for skilled and unskilled positions."
+                keywords="jobs in sri lanka, construction jobs, driver vacancies, electrician jobs"
+            />
             {/* Header */}
             <div className="bg-white border-b border-gray-200 py-12">
                 <div className="container mx-auto px-4 text-center">
