@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Clock, Briefcase, DollarSign, ArrowLeft } from 'lucide-react';
+import { MapPin, Clock, Briefcase, DollarSign, ArrowLeft, Share2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import Swal from 'sweetalert2';
 import { Badge } from '../components/ui/Badge';
 import { Card } from '../components/ui/Card';
 import { fetchJobById } from '../services/api';
@@ -29,15 +30,36 @@ export const JobDetails: React.FC = () => {
         loadJob();
     }, [id]);
 
+    const handleShare = () => {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            Swal.fire({
+                title: 'Link Copied!',
+                text: 'Job link copied to clipboard.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            Swal.fire('Error', 'Failed to copy link.', 'error');
+        });
+    };
+
     if (loading) return <div className="text-center py-20">Loading job details...</div>;
     if (!job) return <div className="text-center py-20">Job not found.</div>;
 
     return (
         <div className="bg-gray-50 min-h-screen py-12">
             <div className="container mx-auto px-4 max-w-4xl">
-                <Button variant="outline" size="sm" onClick={() => navigate('/careers')} className="mb-6">
-                    <ArrowLeft size={16} /> Back to Careers
-                </Button>
+                <div className="flex justify-between items-center mb-6">
+                    <Button variant="outline" size="sm" onClick={() => navigate('/careers')}>
+                        <ArrowLeft size={16} /> Back to Careers
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleShare} className="flex items-center gap-2">
+                        <Share2 size={16} /> Share
+                    </Button>
+                </div>
 
                 <Card className="p-8 mb-8">
                     <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">

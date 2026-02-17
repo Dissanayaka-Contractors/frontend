@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, Briefcase, Trash2 } from 'lucide-react';
+import { Search, MapPin, Clock, Briefcase, Trash2, Share2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
@@ -84,6 +84,22 @@ export const Careers: React.FC = () => {
                 Swal.fire('Error', 'Failed to delete job', 'error');
             }
         }
+    };
+
+    const handleShare = (id: number) => {
+        const url = `${window.location.origin}/careers/${id}`;
+        navigator.clipboard.writeText(url).then(() => {
+            Swal.fire({
+                title: 'Link Copied!',
+                text: 'Job link copied to clipboard.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            Swal.fire('Error', 'Failed to copy link.', 'error');
+        });
     };
 
     const filteredJobs = jobs.filter(job => {
@@ -205,21 +221,42 @@ export const Careers: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2 md:items-end">
-                                        {user?.role === 'admin' && (
-                                            <button
+                                        <div className="flex gap-2 items-center">
+                                            {/* Share Button - Visible to Everyone */}
+                                            <Button
+                                                variant="secondary"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleDeleteJob(job.id!)
+                                                    handleShare(job.id!);
                                                 }}
-                                                className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
+                                                className="flex items-center gap-2"
                                             >
-                                                <Trash2 size={16} />
-                                                Delete
-                                            </button>
-                                        )}
-                                        {user?.role === 'user' && (
-                                            <Button variant="secondary" onClick={() => navigate(`/careers/${job.id}`)}>Apply Now</Button>
-                                        )}
+                                                <Share2 size={16} />
+                                                Share
+                                            </Button>
+
+                                            {/* Role-based Actions */}
+                                            {user?.role === 'admin' && (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteJob(job.id!)
+                                                    }}
+                                                    className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
+                                                >
+                                                    <Trash2 size={16} />
+                                                    Delete
+                                                </button>
+                                            )}
+
+                                            {user?.role === 'user' && (
+                                                <Button variant="secondary" onClick={() => navigate(`/careers/${job.id}`)}>Apply Now</Button>
+                                            )}
+
+                                            {!user && (
+                                                <Button variant="secondary" onClick={() => navigate(`/careers/${job.id}`)}>View Details</Button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                                 <p className="text-gray-600 mb-4 line-clamp-3">{job.description.substring(0, 150)}...</p>
