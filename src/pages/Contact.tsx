@@ -94,29 +94,29 @@ export const Contact: React.FC = () => {
                                 <div className="bg-blue-100 p-3 rounded-full text-blue-600"><MapPin /></div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Head Office</h4>
-                                    <p className="text-gray-600">No. 45/B, Kandy Road, <br />Peliyagoda, Sri Lanka</p>
+                                    <p className="text-gray-600">No.6 SANASA 30 Complex, Giriulla Road, <br />Badalgama, Sri Lanka</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
                                 <div className="bg-blue-100 p-3 rounded-full text-blue-600"><Phone /></div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Phone</h4>
-                                    <p className="text-gray-600">+94 11 234 5678</p>
-                                    <p className="text-gray-600">+94 77 123 4567</p>
+                                    <p className="text-gray-600">+94 77 881 2425</p>
+                                    <p className="text-gray-600">+94 71 893 8086</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
                                 <div className="bg-blue-100 p-3 rounded-full text-blue-600"><Mail /></div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Email</h4>
-                                    <p className="text-gray-600">info@dissanayakacontractors.lk</p>
+                                    <p className="text-gray-600"> dissanayakacontractors.info@gmail.com</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Map Placeholder */}
-                        <div className="bg-gray-200 h-48 rounded-xl flex items-center justify-center text-gray-500 border border-gray-300">
-                            Map Component Placeholder
+                        <div className="h-48 rounded-xl flex items-center justify-center text-gray-500 border border-gray-300 overflow-hidden">
+                            <iframe className="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4982998530295!2d79.88834027608031!3d7.297775373912596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2e8417cac41d9%3A0xb73b6190257ac87e!2sNegombo-Kurunegala%20Rd!5e0!3m2!1sen!2slk!4v1771595763864!5m2!1sen!2slk" width="600" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
