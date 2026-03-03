@@ -7,6 +7,7 @@ export interface Job {
     salary: string;
     postedDate: string;
     keywords: string[];
+    fbImageBase64?: string;
 }
 
 export interface Testimonial {

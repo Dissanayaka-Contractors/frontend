@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, Briefcase, Trash2, Share2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, MapPin, Clock, Briefcase, Trash2, Share2, Loader2, Download } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { type Job } from '../types';
 import { fetchJobs, createJob, deleteJob } from '../services/api';
 import { SEOHead } from '../components/SEOHead';
+import html2canvas from 'html2canvas';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -39,10 +40,49 @@ export const Careers: React.FC = () => {
     const [newJob, setNewJob] = useState({
         title: '', location: '', type: 'Full-time', salary: '', description: '', keywords: ''
     });
+    const captureRef = useRef<HTMLDivElement>(null);
+    const [isPosting, setIsPosting] = useState(false);
+    const [downloadingJobId, setDownloadingJobId] = useState<number | null>(null);
+
+    const handleDownloadJobImage = async (job: Job) => {
+        const el = document.getElementById(`poster-${job.id}`);
+        if (!el) return;
+        try {
+            setDownloadingJobId(job.id);
+            const canvas = await html2canvas(el, {
+                scale: 2,
+                backgroundColor: "#ffffff",
+                useCORS: true,
+                logging: false
+            });
+            const image = canvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.href = image;
+            link.download = `Job_Post_${job.title}.png`;
+            link.click();
+        } catch (err) {
+            console.error("Failed to download image", err);
+            Swal.fire('Error', 'Failed to generate image for download.', 'error');
+        } finally {
+            setDownloadingJobId(null);
+        }
+    };
 
     const handlePostJob = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsPosting(true);
         try {
+            let fbImageBase64 = '';
+            if (captureRef.current) {
+                const canvas = await html2canvas(captureRef.current, {
+                    scale: 2,
+                    backgroundColor: "#ffffff",
+                    useCORS: true,
+                    logging: false
+                });
+                fbImageBase64 = canvas.toDataURL("image/jpeg", 0.95);
+            }
+
             const jobData = {
                 title: newJob.title,
                 location: newJob.location,
@@ -50,7 +90,8 @@ export const Careers: React.FC = () => {
                 description: newJob.description,
                 salary: newJob.salary,
                 postedDate: new Date().toISOString().split('T')[0],
-                keywords: newJob.keywords.split(',').map(k => k.trim())
+                keywords: newJob.keywords.split(',').map(k => k.trim()),
+                fbImageBase64
             };
             await createJob(jobData);
             setNewJob({ title: '', location: '', type: 'Full-time', salary: '', description: '', keywords: '' });
@@ -59,6 +100,8 @@ export const Careers: React.FC = () => {
         } catch (error) {
             console.error("Failed to post job:", error);
             Swal.fire('Error', 'Failed to post job.', 'error');
+        } finally {
+            setIsPosting(false);
         }
     };
 
@@ -135,7 +178,39 @@ export const Careers: React.FC = () => {
 
                 {/* ADMIN PANEL */}
                 {user?.role === 'admin' && (
-                    <Card className="mb-12 border-blue-200 ring-4 ring-blue-50">
+                    <Card className="mb-12 border-blue-200 ring-4 ring-blue-50 relative overflow-hidden">
+                        {/* Hidden Poster Element for html2canvas */}
+                        <div style={{ position: 'absolute', top: 0, left: '-9999px', zIndex: -100 }}>
+                            <div
+                                ref={captureRef}
+                                style={{
+                                    width: '900px',
+                                    background: '#fff',
+                                    border: '8px solid #1c4f8a',
+                                    fontFamily: 'Arial, sans-serif'
+                                }}
+                            >
+                                <div style={{ padding: '28px 34px 22px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                        <img src="/logo-sm.png" alt="Company Logo" style={{ width: '800px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ margin: '28px 0 20px', fontSize: '78px', fontWeight: 900, color: '#1c4f8a', letterSpacing: '2px', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, padding: '10px' }}>
+                                            {newJob.title || 'Job Title'}
+                                        </div>
+                                        <div style={{ color: '#1c4f8a', fontWeight: 1000, fontSize: '30px', textAlign: 'center' }}>
+                                            <p style={{ margin: '10px 0' }}>{newJob.location || 'Location'}</p>
+                                            <p style={{ margin: '10px 0' }}>{newJob.type || 'Employment Type'}</p>
+                                            <p style={{ margin: '10px 0' }}>{newJob.salary || 'Salary Indication'}</p>
+                                        </div>
+                                    </div>
+                                    <div style={{ marginTop: '26px', paddingTop: '14px', borderTop: '2px solid rgba(28, 79, 138, 0.25)', fontSize: '22px', color: '#1c4f8a', fontWeight: 700, textAlign: 'center' }}>
+                                        Visit our website: <span>www.dissanayakacontractors.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="bg-blue-600 text-white px-6 py-4 flex items-center justify-between">
                             <h2 className="font-bold flex items-center gap-2"><Briefcase size={20} /> Admin: Post a New Job</h2>
                             <span className="text-xs bg-blue-500 px-2 py-1 rounded">Admin Access</span>
@@ -172,7 +247,9 @@ export const Careers: React.FC = () => {
                                 <textarea required rows={3} className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Job details..." value={newJob.description} onChange={e => setNewJob({ ...newJob, description: e.target.value })} />
                             </div>
                             <div className="col-span-2">
-                                <Button type="submit" className="w-full">Publish Job</Button>
+                                <Button type="submit" className="w-full flex justify-center items-center gap-2" disabled={isPosting}>
+                                    {isPosting ? <><Loader2 className="animate-spin" size={20} /> Publishing...</> : 'Publish Job'}
+                                </Button>
                             </div>
                         </form>
                     </Card>
@@ -216,7 +293,38 @@ export const Careers: React.FC = () => {
                 <div className="grid gap-6">
                     {filteredJobs.length > 0 ? (
                         filteredJobs.map(job => (
-                            <Card key={job.id} className="p-6 hover:border-blue-300 transition-colors">
+                            <Card key={job.id} className="p-6 hover:border-blue-300 transition-colors relative overflow-hidden">
+                                {/* Hidden Poster Element for this Job */}
+                                <div style={{ position: 'absolute', top: 0, left: '-9999px', zIndex: -100 }}>
+                                    <div
+                                        id={`poster-${job.id}`}
+                                        style={{
+                                            width: '900px',
+                                            background: '#fff',
+                                            border: '8px solid #1c4f8a',
+                                            fontFamily: 'Arial, sans-serif'
+                                        }}
+                                    >
+                                        <div style={{ padding: '28px 34px 22px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                <img src="/logo-sm.png" alt="Company Logo" style={{ width: '800px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                                            </div>
+                                            <div style={{ textAlign: 'center' }}>
+                                                <div style={{ margin: '28px 0 20px', fontSize: '78px', fontWeight: 900, color: '#1c4f8a', letterSpacing: '2px', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, padding: '10px' }}>
+                                                    {job.title || 'Job Title'}
+                                                </div>
+                                                <div style={{ color: '#1c4f8a', fontWeight: 1000, fontSize: '30px', textAlign: 'center' }}>
+                                                    <p style={{ margin: '10px 0' }}>{job.location || 'Location'}</p>
+                                                    <p style={{ margin: '10px 0' }}>{job.type || 'Employment Type'}</p>
+                                                    <p style={{ margin: '10px 0' }}>{job.salary || 'Salary Indication'}</p>
+                                                </div>
+                                            </div>
+                                            <div style={{ marginTop: '26px', paddingTop: '14px', borderTop: '2px solid rgba(28, 79, 138, 0.25)', fontSize: '22px', color: '#1c4f8a', fontWeight: 700, textAlign: 'center' }}>
+                                                Visit our website: <span>www.dissanayakacontractors.com</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                                     <div>
                                         <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
@@ -243,16 +351,30 @@ export const Careers: React.FC = () => {
 
                                             {/* Role-based Actions */}
                                             {user?.role === 'admin' && (
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteJob(job.id!)
-                                                    }}
-                                                    className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
-                                                >
-                                                    <Trash2 size={16} />
-                                                    Delete
-                                                </button>
+                                                <>
+                                                    <Button
+                                                        variant="secondary"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDownloadJobImage(job);
+                                                        }}
+                                                        className="flex items-center gap-2"
+                                                        disabled={downloadingJobId === job.id}
+                                                    >
+                                                        {downloadingJobId === job.id ? <Loader2 className="animate-spin" size={16} /> : <Download size={16} />}
+                                                        Download
+                                                    </Button>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDeleteJob(job.id!)
+                                                        }}
+                                                        className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                        Delete
+                                                    </button>
+                                                </>
                                             )}
 
                                             {user?.role === 'user' && (
