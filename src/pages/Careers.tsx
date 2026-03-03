@@ -321,7 +321,8 @@ export const Careers: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div style={{ marginTop: '26px', paddingTop: '14px', borderTop: '2px solid rgba(28, 79, 138, 0.25)', fontSize: '22px', color: '#1c4f8a', fontWeight: 700, textAlign: 'center' }}>
-                                                Visit our website: <span>www.dissanayakacontractors.com</span>
+                                                <p>Visit our website: <span>www.dissanayakacontractors.com</span></p>
+                                                <p>Contact us: <span>0718938086</span></p>
                                             </div>
                                         </div>
                                     </div>
