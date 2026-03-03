@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, MapPin, Clock, Briefcase, Trash2, Share2, Loader2, Download } from 'lucide-react';
+import { Search, MapPin, Clock, Briefcase, Trash2, ClipboardCopy, Loader2, Download } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
@@ -130,19 +130,20 @@ export const Careers: React.FC = () => {
         }
     };
 
-    const handleShare = (id: number) => {
-        const url = `${window.location.origin}/careers/${id}`;
-        navigator.clipboard.writeText(url).then(() => {
+    const handleShare = (job: Job) => {
+        const url = `https://www.dissanayakacontractors.com/careers/${job.id}`;
+        const copyText = `New Job Posted: ${job.title}!\nLocation: ${job.location}\nType: ${job.type}\nSalary: ${job.salary}\n${job.description}\nVisit our site to apply.\n${url}`;
+        navigator.clipboard.writeText(copyText).then(() => {
             Swal.fire({
-                title: 'Link Copied!',
-                text: 'Job link copied to clipboard.',
+                title: 'Copied!',
+                text: 'Job details copied to clipboard.',
                 icon: 'success',
                 timer: 1500,
                 showConfirmButton: false
             });
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            Swal.fire('Error', 'Failed to copy link.', 'error');
+            Swal.fire('Error', 'Failed to copy job details.', 'error');
         });
     };
 
@@ -341,12 +342,12 @@ export const Careers: React.FC = () => {
                                                 variant="secondary"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleShare(job.id!);
+                                                    handleShare(job);
                                                 }}
-                                                className="flex items-center gap-2"
+                                                className="flex items-center gap-2 px-2"
                                             >
-                                                <Share2 size={16} />
-                                                Share
+                                                <ClipboardCopy size={16} />
+                                                Copy
                                             </Button>
 
                                             {/* Role-based Actions */}
@@ -358,7 +359,7 @@ export const Careers: React.FC = () => {
                                                             e.stopPropagation();
                                                             handleDownloadJobImage(job);
                                                         }}
-                                                        className="flex items-center gap-2"
+                                                        className="flex items-center gap-2 px-2"
                                                         disabled={downloadingJobId === job.id}
                                                     >
                                                         {downloadingJobId === job.id ? <Loader2 className="animate-spin" size={16} /> : <Download size={16} />}
@@ -369,7 +370,7 @@ export const Careers: React.FC = () => {
                                                             e.stopPropagation();
                                                             handleDeleteJob(job.id!)
                                                         }}
-                                                        className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-1 rounded border border-red-200 hover:bg-red-50"
+                                                        className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors text-sm font-medium px-3 py-[10px] rounded-lg border-2 border-red-400 hover:bg-red-50"
                                                     >
                                                         <Trash2 size={16} />
                                                         Delete
