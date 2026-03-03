@@ -311,7 +311,7 @@ export const Careers: React.FC = () => {
                                                 <img src="/logo-sm.png" alt="Company Logo" style={{ width: '800px', objectFit: 'contain' }} crossOrigin="anonymous" />
                                             </div>
                                             <div style={{ textAlign: 'center' }}>
-                                                <div style={{ margin: '28px 0 20px', fontSize: '78px', fontWeight: 900, color: '#1c4f8a', letterSpacing: '2px', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, padding: '10px' }}>
+                                                <div style={{ margin: '10px 0 20px', fontSize: '78px', fontWeight: 900, color: '#1c4f8a', letterSpacing: '2px', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, padding: '10px' }}>
                                                     {job.title || 'Job Title'}
                                                 </div>
                                                 <div style={{ color: '#1c4f8a', fontWeight: 1000, fontSize: '30px', textAlign: 'center' }}>
