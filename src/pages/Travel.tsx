@@ -49,7 +49,7 @@ export const Travel: React.FC = () => {
                         Your trusted travel partner for discovering the beauty, culture, wildlife, and unforgettable experiences of Sri Lanka.
                         Whether you are looking for a Day Tour, City Tour, Round Tour, or a complete holiday, we are here to arrange everything according to your requirements.
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                         <a href="#contact">
                             <Button>Contact Us Now</Button>
                         </a>
