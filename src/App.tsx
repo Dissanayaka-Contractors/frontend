@@ -1,5 +1,5 @@
-
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { LanguageWidget } from './components/LanguageWidget';
@@ -29,6 +29,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
