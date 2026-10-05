@@ -1,7 +1,7 @@
 // import React, { useEffect, useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Hammer, Briefcase, Users } from 'lucide-react';
+import { Hammer, Briefcase, Car } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
@@ -84,16 +84,21 @@ export const Home: React.FC = () => {
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
-                            { icon: <Hammer className="w-8 h-8 text-blue-600" />, title: "Construction Labor", desc: "Masons, carpenters, bar benders, and general helpers for sites." },
-                            { icon: <Briefcase className="w-8 h-8 text-blue-600" />, title: "Industrial Staffing", desc: "Factory workers, packing staff, and warehouse loaders." },
-                            { icon: <Users className="w-8 h-8 text-blue-600" />, title: "Skilled Technicians", desc: "Electricians, plumbers, welders, and equipment operators." }
+                            { icon: <Hammer className="w-8 h-8 text-blue-600" />, title: "Construction & Technical Labor", desc: "Skilled and general workforce including masons, carpenters, electricians, plumbers, and equipment operators.", link: "/careers", linkText: "Find Jobs" },
+                            { icon: <Briefcase className="w-8 h-8 text-blue-600" />, title: "Industrial & Logistics Staffing", desc: "Reliable manpower for factories and logistics, providing packing staff, warehouse loaders, and general workers.", link: "/careers", linkText: "Find Jobs" },
+                            { icon: <Car className="w-8 h-8 text-blue-600" />, title: "Taxi & Tour Service", desc: "Professional transportation solutions offering reliable taxi services and guided tours across Sri Lanka.", link: "/travel", linkText: "Explore Tours" }
                         ].map((service, idx) => (
-                            <Card key={idx} className="p-8 hover:-translate-y-1 transition-transform">
+                            <Card key={idx} className="p-8 hover:-translate-y-1 transition-transform flex flex-col h-full">
                                 <div className="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                                     {service.icon}
                                 </div>
                                 <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                                <p className="text-gray-600 leading-relaxed">{service.desc}</p>
+                                <p className="text-gray-600 leading-relaxed flex-grow">{service.desc}</p>
+                                <div className="mt-6 pt-4 border-t border-gray-100">
+                                    <Link to={service.link}>
+                                        <Button className="w-full">{service.linkText}</Button>
+                                    </Link>
+                                </div>
                             </Card>
                         ))}
                     </div>

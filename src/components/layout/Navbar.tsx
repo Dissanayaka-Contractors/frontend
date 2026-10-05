@@ -35,6 +35,7 @@ export const Navbar: React.FC = () => {
                     <NavItem to="/" label="Home" />
                     <NavItem to="/about" label="About Us" />
                     <NavItem to="/careers" label="Careers" />
+                    <NavItem to="/travel" label="Taxi & Tours" />
                     <NavItem to="/contact" label="Contact" />
                     {user?.role === 'admin' && (
                         <NavItem to="/admin" label="Applications" />
@@ -79,6 +80,7 @@ export const Navbar: React.FC = () => {
                     <NavItem to="/" label="Home" />
                     <NavItem to="/about" label="About Us" />
                     <NavItem to="/careers" label="Careers" />
+                    <NavItem to="/travel" label="Taxi & Tours" />
                     <NavItem to="/contact" label="Contact" />
                     {user?.role === 'admin' && (
                         <NavItem to="/admin" label="Applications" />

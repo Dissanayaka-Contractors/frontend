@@ -11,6 +11,7 @@ import { Contact } from './pages/Contact';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { Travel } from './pages/Travel';
 import { AuthProvider } from './context/AuthContext';
 
 const Layout = () => (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/careers/:id" element={<JobDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/travel" element={<Travel />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
