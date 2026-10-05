@@ -34,10 +34,10 @@ export const Travel: React.FC = () => {
 
             {/* Hero Section */}
             <section className="relative bg-slate-900 text-white py-24 lg:py-32 overflow-hidden">
-                <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 z-0 bg-slate-900">
                     <img
-                        src="https://images.unsplash.com/photo-1544252890-4d436a56ebc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-                        alt="Travel in Sri Lanka"
+                        src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Nine_Arches_Bridge_in_Ella.jpg/1280px-Nine_Arches_Bridge_in_Ella.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+                        alt="Travel in Sri Lanka - Nine Arches Bridge"
                         className="w-full h-full object-cover opacity-20"
                     />
                 </div>
@@ -102,19 +102,19 @@ export const Travel: React.FC = () => {
                         <p className="text-gray-600">Check out our comfortable vehicles and special tour packages.</p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-6">
-                        <div 
+                        <div
                             className="rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group h-80 relative cursor-pointer"
                             onClick={() => setSelectedImage(t1)}
                         >
                             <img src={t1} alt="Disanayaka Taxi & Tour Prices" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
                         </div>
-                        <div 
+                        <div
                             className="rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group h-80 relative cursor-pointer"
                             onClick={() => setSelectedImage(t3)}
                         >
                             <img src={t3} alt="Our Vehicle Fleet" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
                         </div>
-                        <div 
+                        <div
                             className="rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group h-80 relative cursor-pointer"
                             onClick={() => setSelectedImage(t2)}
                         >
@@ -159,12 +159,12 @@ export const Travel: React.FC = () => {
 
             {/* Image Popup / Lightbox */}
             {selectedImage && (
-                <div 
+                <div
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200"
                     onClick={() => setSelectedImage(null)}
                 >
                     <div className="relative max-w-5xl w-full max-h-[90vh] flex justify-center items-center">
-                        <button 
+                        <button
                             className="absolute -top-12 right-0 md:-right-12 md:top-0 text-white/70 hover:text-white text-4xl p-2 transition-colors z-50"
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -174,11 +174,11 @@ export const Travel: React.FC = () => {
                         >
                             &times;
                         </button>
-                        <img 
-                            src={selectedImage} 
-                            alt="Popup View" 
+                        <img
+                            src={selectedImage}
+                            alt="Popup View"
                             className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-                            onClick={(e) => e.stopPropagation()} 
+                            onClick={(e) => e.stopPropagation()}
                         />
                     </div>
                 </div>
